@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>My second game</title>
+	<link href='https://fonts.googleapis.com/css?family=Allerta|Orbitron:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
+</head>
+
+<body>
+
+
+<section class="home" id="home">
+
+	<canvas id="mainCanvas"></canvas>
+	
+</section>
+<audio id="atira"src="sons/tiro.mp3"></audio>
+<audio id="acelera"src="sons/acelera.mp3"></audio>
+<audio id="impactoAsteroid"src="sons/impactoAsteroid.mp3"></audio>
+<audio id="explosao"src="sons/explosao.mp3"></audio>
+<audio loop="loop" id="musica"src="sons/fundo.mp3"></audio>
+
+
+<script type="text/javascript">
+	//variaveis globais
+	var canvas, ctx, back, back1, globo, play, input;
+	var nave, frames, pontosTotal;
+	var fase = 0;
+	var gameOver = true;
+	var tiros = [];
+	var framesGame;
+	var pontuacao = 0;
+	var estado = 0;
+	var vidas = 3;
+
+	
+	var img = new Image();
+	img.onload = function()
+	{
+		console.log("loading");
+	}
+	img.src = "imagens/sprites1.png";
+	var _WIDTH = 720;
+	var _HEIGHT = 480;
+	var meteoros = [];
+</script>
+<script type="text/javascript" src="js/Sprite.js"></script>
+<script type="text/javascript" src="js/Back.js"></script>
+<script type="text/javascript" src="js/Nave.js"></script>
+<script type="text/javascript" src="js/Planeta.js"></script>
+<script type="text/javascript" src="js/tiro.js"></script>
+<script type="text/javascript" src="js/Meteoro.js"></script>
+<script type="text/javascript" src="js/sons.js"></script>
+<script type="text/javascript" src="js/Input.js"></script>
+<script type="text/javascript" src="js/game.js"></script>
+
+</body>
+</html>
