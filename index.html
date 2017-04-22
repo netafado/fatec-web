@@ -4,8 +4,17 @@
 	<meta charset="UTF-8">
 	<title>My second game</title>
 	<link href='https://fonts.googleapis.com/css?family=Allerta|Orbitron:400,500' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+
+<style>
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	canvas{
+		display: block
+	}
+</style>	
 </head>
 
 <body>
@@ -37,9 +46,9 @@
 
 	
 	var img = new Image();
-	img.src = "imagens/sprites1.png";
-	var _WIDTH = 720;
-	var _HEIGHT = 480;
+	img.src = "assets/imagens/sprites1.png";
+	var _WIDTH = window.innerWidth;
+	var _HEIGHT = window.innerHeight;
 	var meteoros = [];
 </script>
 <script type="text/javascript" src="js/Sprite.js"></script>
