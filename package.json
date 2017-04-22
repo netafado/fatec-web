@@ -1,0 +1,25 @@
+{
+  "name": "fatec-web",
+  "version": "1.0.0",
+  "description": "Fatec Carapicuiba Jogos para web",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netafado/fatec-web.git"
+  },
+  "author": "Isaias Francisco dos Santos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/netafado/fatec-web/issues"
+  },
+  "homepage": "https://github.com/netafado/fatec-web#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp-stylus": "^2.6.0"
+  }
+}
