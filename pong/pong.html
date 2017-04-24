@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>My second game</title>
+	<link href='https://fonts.googleapis.com/css?family=Allerta|Orbitron:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+
+<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+
+	}
+</style>
+</head>
+
+<body>
+
+
+<section class="home" id="home">
+
+	<canvas id="mainCanvas"></canvas>
+	
+</section>
+
+
+</script>
+<script type="text/javascript" src="Input.js"></script>
+<script type="text/javascript" src="Vetor2d.js"></script>
+<script type="text/javascript" src="Bola.js"></script>
+<script type="text/javascript" src="Raquete.js"></script>
+<script type="text/javascript" src="pong.js"></script>
+
+
+<script type="text/javascript">
+	var game = new Game(window.innerWidth, window.innerHeight, document.getElementById('mainCanvas'));
+	game.init();
+</script>
+
+</body>
+</html>

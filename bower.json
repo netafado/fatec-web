@@ -1,0 +1,21 @@
+{
+  "name": "fatec-web",
+  "description": "Fatec Carapicuiba Jogos para web",
+  "main": "gulpfile.js",
+  "authors": [
+    "Isaias Francisco dos Santos"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/netafado/fatec-web",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "socket.io": "^1.7.3"
+  }
+}
