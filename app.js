@@ -7,23 +7,24 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var isa;
-
+var pongRouter =  require( __dirname + '/src/routes/pongRoute.js');
+var indexRouter = require( __dirname + '/src/routes/indexRoute.js');
 var port = 3000;
 
-
-app.set('views', './src/views')
+// seta a qual template engine será usada
+app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+// pasta para os arquivos staticos
 app.use( express.static('public') );
 app.use( express.static('pong') );
 
-app.get('/pong', function(req, res){
-	res.render('pong');
-});
+// dinamicas
+app.use( '/pong', pongRouter );
+app.use( '/', indexRouter );
+
 
 http.listen(3000);
-
 
 var window = {
 	w: 1000,

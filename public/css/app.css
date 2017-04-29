@@ -1,1 +1,230 @@
-.test{background:#00f}.bac{display:-webkit-box;display:-ms-flexbox;display:flex}.h1{color:#00f}body{overflow:hidden}
+.zero-padding-margin,
+#menu-principal ul.nav-menu-principal,
+#index-content,
+.imgs-destaque,
+.imgs-destaque li {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: 'Titillium Web', sans-serif;
+  color: #171926;
+}
+h1,
+h2,
+h3,
+h4 {
+  color: #171926;
+}
+h1 {
+  font-size: 50px;
+}
+li {
+  list-style: none;
+}
+footer {
+  background-color: #06062f;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+a {
+  color: #fff;
+  font-size: 15px;
+}
+a:hover {
+  color: #fff;
+}
+.titulo {
+  text-align: center;
+  color: #000;
+}
+#header-top {
+  position: relative;
+  z-index: 999999;
+}
+.logo {
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: #00f;
+}
+.logo img {
+  min-width: 150px;
+  height: auto;
+}
+.login-menu {
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.login-menu ul {
+  color: #00f;
+  display: flex;
+  float: right;
+  margin-top: 20px;
+}
+.login-menu ul li {
+  list-style: none;
+  display: inline;
+}
+.login-menu ul li + li {
+  margin-left: 10px;
+}
+.logIn,
+.menu {
+  height: 50px;
+  width: 47px;
+  overflow: hidden;
+  display: inline-block;
+  background-image: url("../img/icones.png");
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.logIn {
+  background-position: 0 0;
+}
+.menu {
+  background-position: -46px 0;
+}
+#menu-principal {
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: absolute;
+  opacity: 0.9;
+  top: 0;
+  left: 0;
+  margin: 0;
+  z-index: 999;
+  background-color: #06062f;
+  color: #fff;
+  -webkit-transition: transform 1s;
+  transition: transform 1s;
+}
+@media (min-width: 992px) {
+  #menu-principal {
+    float: left;
+    width: 25%;
+  }
+}
+#menu-principal ul.nav-menu-principal {
+  margin-top: 220px;
+}
+#menu-principal ul.nav-menu-principal li {
+  font-size: 20px;
+  text-align: center;
+  margin: 10px 20px;
+}
+.hidden-menu {
+  transform: translateX(-100%);
+}
+.show-menu {
+  transform: translateX(0);
+}
+#slide-show {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  height: 700px;
+  width: 100%;
+}
+#slide-show .slide {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-image: url("../img/background-slide.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+#slide-show .slide .hold-text {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+}
+#slide-show .slide .hold-text h1 {
+  font-size: 50px;
+  color: #fff;
+}
+#slide-show .slide .hold-text h3 {
+  font-size: 25px;
+  color: #fff;
+}
+#slide-show .slide .hold-text button {
+  font-size: 25px;
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid #fff;
+}
+#slide-show .slide .hold-text .slide-textos {
+  padding-bottom: 20px;
+}
+.imgs-destaque {
+  zoom: 1;
+}
+.imgs-destaque:after,
+.imgs-destaque:before {
+  content: "";
+  display: table;
+}
+.imgs-destaque:after {
+  clear: both;
+}
+.imgs-destaque li {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (min-width: 992px) {
+  .imgs-destaque li {
+    float: left;
+    width: 33.33333333333333%;
+  }
+}
+.imgs-destaque li a {
+  display: block;
+  background-color: #06062f;
+}
+.imgs-destaque li a h4 {
+  text-align: center;
+  color: #fff;
+}
+.texto-thumbnail {
+  position: absolute;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: #06062f;
+  opacity: 0.6;
+  align-items: center;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=app.css.map */

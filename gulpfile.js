@@ -2,20 +2,33 @@ var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
     autoprefixer = require( 'autoprefixer-stylus' );
     
-gulp.task( 'stylus', ['print'], function (){
-    gulp.src('./lib/stylus/*.styl')
+var sourcemaps = require('gulp-sourcemaps');
 
-    .pipe( stylus( {
-        use: autoprefixer(),
-        compress: true
-    }     
+gulp.task( 'stylus', function (){
+
+    gulp.src(__dirname +'/src/stylus/*.styl')
+    .pipe(sourcemaps.init())
+    .pipe( stylus(
+        {
+           
+            compress: false
+        }     
     ) )
-    .pipe(gulp.dest('./css/'));
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('./public/css'));
 } );
+
+gulp.task('s', function () {
+  return gulp.src('./css/compressed.styl')
+    .pipe(stylus({
+      compress: true
+    }))
+    .pipe(gulp.dest('./css/build'));
+});
 
 gulp.task('print', function(){
     console.log('fez');
 });
 gulp.task('w', function(){
-    gulp.watch(['./lib/stylus/*.styl'], ['stylus']);
+    gulp.watch([ __dirname + '/src/stylus/**/*.styl'], ['stylus']);
 });

@@ -1,0 +1,70 @@
+#slide-show
+	position absolute
+	top 	0
+	left	2px
+	height	700px
+	width	100%
+
+	.slide
+		position 		relative
+		height			100%
+		width 			100%
+		background-image 		url('../img/background-slide.jpg')
+		background-size			cover
+		background-position 	center center
+		background-attachment 	fixed
+		.hold-text
+			position 	absolute
+			bottom		0
+			text-align	center
+			width 		100%
+			color		$text-light-color
+			h1
+				font-size   50px
+				color		$text-light-color
+			h3
+				font-size 25px	
+				color	$text-light-color			
+			button
+				font-size 	25px
+				padding		10px 20px
+				background-color  transparent
+				border 1px solid #FFFFFF
+			
+			.slide-textos
+				padding-bottom 	20px
+
+#index-content
+	@extends .zero-padding-margin
+	
+.imgs-destaque
+	@extends .zero-padding-margin
+	cf()
+	li
+		make-xs-column(12)
+		make-md-column(4)
+		position relative
+		list-style	none
+		@extends .zero-padding-margin
+		padding 0
+		margin  0		
+		a
+			display block
+			background-color $main-color
+			 h4
+				text-align center
+				color white
+
+.texto-thumbnail
+	position absolute
+	display flex
+	height 100%
+	width 100%
+	background-color $main-color
+	opacity 0.6
+	align-items: center
+	justify-content center
+			
+				
+	
+	   			
