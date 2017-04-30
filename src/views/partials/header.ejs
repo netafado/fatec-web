@@ -33,16 +33,18 @@
 	<div class="row-fluid">
 
 		<div class="logo">
+			<a href="/">
 			<img src="img/logo.svg" class="logotipo">
+			</a>
 		</div>
 
 		<div class="login-menu">
 
 			<ul>
 				<li>
-					<a><span class="logIn"></span><span class="hidden-xs">Log In</span></a></li>
+					<a><span class="logIn"></span></a></li>
 
-				<li class="wrraper-menu"><a><span class="menu"></span><span class="hidden-xs">Menu</span></a></li>
+				<li class="wrraper-menu"><a><span class="menu"></a></li>
 				
 			</ul>
 
@@ -56,7 +58,10 @@
 <!-- Menu -->
 <nav id="menu-principal" class="menu-principal container-fluid hidden-menu">
 	<ul class="nav-menu-principal row">
-		<li>Nave</li>
-		<li>Time</li>
+		<% for(var i = 0; i < nav.length; i++){ %>
+		<li>
+			<a href="<%=nav[i].link%>"><%=nav[i].texto%></a>
+		</li>
+		<%}%>
 	</ul>
 </nav>

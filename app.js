@@ -7,8 +7,32 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var pongRouter =  require( __dirname + '/src/routes/pongRoute.js');
-var indexRouter = require( __dirname + '/src/routes/indexRoute.js');
+var nav = [
+	
+	{
+		link:'/',
+		texto: 'home'
+	},
+
+	{
+		link:'/contato',
+		texto: 'contato'
+	},
+
+	{
+		link:'/time',
+		texto: 'time'
+	},
+
+	{
+		link:'/sobre',
+		texto: 'sobre nós'
+	}
+
+];
+
+var pongRouter =  require( __dirname + '/src/routes/pongRoute.js')(nav);
+var indexRouter = require( __dirname + '/src/routes/indexRoute.js')(nav);
 var port = 3000;
 
 // seta a qual template engine será usada
@@ -27,8 +51,8 @@ app.use( '/', indexRouter );
 http.listen(3000);
 
 var window = {
-	w: 1000,
-	h: 600
+	w: 800,
+	h: 500
 }
 var ball = {
 	x: window.w / 2,

@@ -2,18 +2,16 @@ var express =  require("express");
 
 var routePong =  express.Router();
 
+function router(nav){
 	routePong.route('/')
 	.get( function(req, res){
-		res.render('pong');
+		res.render('pong', {nav});
 	});
-
-	routePong.route('/single/:id?')
-	.get( function(req, res){
-		res.send('pong');
-	});
+	return routePong;
+}
 
 
 
 
 
-module.exports = routePong;
+module.exports = router;

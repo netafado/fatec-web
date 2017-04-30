@@ -1,25 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<meta charset="UTF-8">
-	<title>My second game</title>
-	<link href='https://fonts.googleapis.com/css?family=Allerta|Orbitron:400,500' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="css/app.css">
+<% include partials/header.ejs %>
+<section class="home container" id="home">
 
-<style type="text/css">
-	*{
-		margin: 0;
-		padding: 0;
-
-	}
-</style>
-</head>
-
-<body>
-
-<section class="home" id="home">
-
-	<canvas id="mainCanvas"></canvas>
+	<div class="row">
+		<div class="col-xs-12">
+			<canvas id="mainCanvas"></canvas>
+		</div>
+	</div>
 	
 </section>
 
@@ -65,11 +51,10 @@ var game;
   		game.ctx.clearRect(0, 0, data.w.w, data.w.h );
   		game.ctx.fillStyle = 'white';
   		game.ctx.beginPath();
-  		console.log(data.bola.x);
+  		
   		game.ctx.arc(data.bola.x, data.bola.y, data.bola.size, 0, Math.PI*2);
    		game.ctx.fill(); 		
   	});
 </script>
 
-</body>
-</html>
+<% include partials/footer.ejs %>

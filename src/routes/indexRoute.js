@@ -1,9 +1,12 @@
 var ex =  require('express'),
-	router = ex.Router();
+	route = ex.Router();
 
-router.route('/').get(function (req, res) {
-	res.render('index');
-});
+function router(nav){
+	route.route('/').get(function (req, res) {
+	res.render('index', {nav});	
+	});
+	return route;
+}
 
 
 module.exports = router;

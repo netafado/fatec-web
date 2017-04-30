@@ -8,13 +8,14 @@
 }
 body {
   font-family: 'Titillium Web', sans-serif;
-  color: #171926;
+  color: #fff;
+  background-color: #00008b;
 }
 h1,
 h2,
 h3,
 h4 {
-  color: #171926;
+  color: #fff;
 }
 h1 {
   font-size: 50px;
@@ -37,7 +38,7 @@ a:hover {
 }
 .titulo {
   text-align: center;
-  color: #000;
+  color: #fff;
 }
 #header-top {
   position: relative;
@@ -225,6 +226,11 @@ a:hover {
   opacity: 0.6;
   align-items: center;
   justify-content: center;
+}
+#mainCanvas {
+  margin: auto;
+  display: block;
+  margin-bottom: 20px;
 }
 
 /*# sourceMappingURL=app.css.map */
