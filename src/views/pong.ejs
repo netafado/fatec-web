@@ -10,11 +10,11 @@
 </section>
 
 </script>
-<script type="text/javascript" src="js/Input.js"></script>
-<script type="text/javascript" src="js/Vetor2d.js"></script>
-<script type="text/javascript" src="js/Bola.js"></script>
-<script type="text/javascript" src="js/Raquete.js"></script>
-<script type="text/javascript" src="js/pong.js"></script>
+<script type="text/javascript" src="/js/pong/Input.js"></script>
+<script type="text/javascript" src="/js/pong/Vetor2d.js"></script>
+<script type="text/javascript" src="/js/pong/Bola.js"></script>
+<script type="text/javascript" src="/js/pong/Raquete.js"></script>
+<script type="text/javascript" src="/js/pong/pong.js"></script>
 
 
 <script type="text/javascript">
@@ -30,30 +30,59 @@
 
 
 var game;
-
+var h = 800, w = 500;
   var socket = io();
-  var id = Math.random();
+  var esperando = true;
+  game = new Game(800, 500, document.getElementById('mainCanvas'));
 
-  var player = {
-
-  }
-
-   socket.emit('init', {
-  		reason: 'i have a new friend id: ' + id
+  // quarda para saber a saala
+  var id_sala = <%=sala_id%>;
+  var nome = prompt("Seu nome?");
+  
+   socket.emit('sala_init', {
+  		name: nome,
+		id_sala: id_sala
   	});
 
 
-  socket.on('initGame', function(data){
-  		game = new Game(data.w, data.h, document.getElementById('mainCanvas'));
+
+  socket.on('comecarJogo', function(data){
+	  esperando = false;
+	  w = data.w;
+	  h = data.h;
   	});
 
+	socket.emit('add_player', {id_sala: id_sala});
+
+
+	function draw(){
+		game.ctx.clearRect(0, 0, w, h );
+  		game.ctx.fillStyle = 'white';
+  		game.ctx.beginPath();
+  		
+  		game.ctx.font="20px Georgia";
+		game.ctx.fillText("Esperando Adversário!",w /2 ,h * 0.3 );
+   		game.ctx.fill(); 
+	}
+
+	draw();
     socket.on('update', function(data){
+		console.log('updating');
+		if(data.id != id_sala){
+			return;
+		}
+		
   		game.ctx.clearRect(0, 0, data.w.w, data.w.h );
   		game.ctx.fillStyle = 'white';
   		game.ctx.beginPath();
   		
   		game.ctx.arc(data.bola.x, data.bola.y, data.bola.size, 0, Math.PI*2);
-   		game.ctx.fill(); 		
+   		game.ctx.fill(); 
+
+		for(var i = 0; i < data.players.length; i++)
+		{
+			game.ctx.fillRect(data.players[i].x, data.players[i].y, data.players[i].w, data.players[i].h); 
+		}	
   	});
 </script>
 

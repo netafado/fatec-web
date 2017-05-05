@@ -1,0 +1,58 @@
+<% include partials/header.ejs %>
+<section class="home container" id="home">
+
+	<div class="row">
+		<div class="col-xs-12">
+			<p><button onclick='criarSala()'>Criar Jogo</button><p>
+			<ul>
+				<li id='23'><a href="/24">Sala 1<li>
+				<li id='23'><a href="/24">Sala 1<li>
+				<li id='23'><a href="/24">Sala 1<li>
+				<li id='23'><a href="/24">Sala 1<li>
+			</ul>
+		</div>
+	</div>
+	
+</section>
+
+</script>
+
+
+
+<script type="text/javascript">
+
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
+
+
+<script>
+
+
+var game;
+
+  var socket = io();
+
+  var id_sala;
+
+  var player = {
+
+  }
+
+  function criarSala(){
+	socket.emit('criarSala', {
+  		init: 'true'
+  	});
+  }
+
+  socket.on('salaCriada', function(data){
+	  console.log('sala id: ' + data.sala);
+	  window.location = "/pong/sala/" + data.sala;
+  });
+
+
+</script>
+
+<% include partials/footer.ejs %>
