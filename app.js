@@ -43,6 +43,7 @@ var nav = [
 
 var pongRouter =  require( __dirname + '/src/routes/pongRoute.js')(nav);
 var indexRouter = require( __dirname + '/src/routes/indexRoute.js')(nav);
+var outras = require( __dirname + '/src/routes/indexRoute.js')(nav);
 var port = 3000;
 
 // seta a qual template engine será usada
@@ -56,7 +57,7 @@ app.use( express.static( __dirname + '/public') );
 // dinamicas
 app.use( '/', indexRouter );
 app.use( '/pong', pongRouter );
-
+app.use( '/', outras );
 
 http.listen(3000);
 
@@ -111,11 +112,10 @@ Game.prototype = {
 		this.players.push(player);
 		
 	},
-	init: function(){
+	init: function(io){
 		var self = this;
 		
-		this.time = setInterval(function(){
-  			self.update();
+ 			self.update();
 
 			  self.players[0].io.emit('update', {
   					bola: self.ball,
@@ -124,19 +124,17 @@ Game.prototype = {
 					players: self.players
   			 	});
 			
-			  for( var i = 0; i < self.players[i].length; i++)
-			  {
-				  console.log('teste');
-				  self.players.io.emit('update', {
-  					bola: self.ball,
+	  
+			setInterval(function(){
+				io.to(self.id).emit({
+					bola: self.ball,
   					w: window,
 					id: self.id,
 					players: self.players
-  			 	});
-			  };
-
-
-  		}, 1000 / 10);		  
+				});
+			}, 1000);
+		
+	  
 	},
 	parar: function(){
 		clearInterval(this.time.bind(this));
@@ -229,7 +227,7 @@ socket.id = ids++;
 socket.on('criarSala', function(data){
 	
 	sala_id +=1;
-	
+	socket.join(sala_id);
 	salas[sala_id] = new Sala(new Game(sala_id), sala_id);
 	console.log(salas[sala_id]);
 	socket.emit('salaCriada', { sala: sala_id });
@@ -243,13 +241,12 @@ socket.on('criarSala', function(data){
   	h: window.h
   });
 
-
   
 // ao criar a sala
 socket.on('add_player', function(data){
-
+	
 	salas[data.id_sala].game.addPlayer(new Player(20, 200, 100, player_id, currentIO));
-
+	
 	if(salas[data.id_sala].game.players.length > 1)
 	{
 		
