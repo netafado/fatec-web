@@ -34,24 +34,18 @@
 var game;
 
   var socket = io();
+  	function criarSala(){
+		  // clicou em criar Sala
+		  console.log('tes');
+		  socket.emit('pegarSala', {});
+	}
 
-  var id_sala;
+	socket.on('salaCriada', function(data){
+		console.log(data.sala);
+		window.location = '/pong/sala/' + data.sala;
+	});
 
-  var player = {
-
-  }
-
-  function criarSala(){
-	socket.emit('criarSala', {
-  		init: 'true'
-  	});
-  }
-
-  socket.on('salaCriada', function(data){
-	  console.log('sala id: ' + data.sala);
-	  window.location = "/pong/sala/" + data.sala;
-  });
-
+  
 
 </script>
 

@@ -52,223 +52,222 @@ app.set('view engine', 'ejs');
 
 // pasta para os arquivos staticos
 app.use( express.static( __dirname + '/public') );
-//app.use( express.static( __dirname + '/pong') );
 
-// dinamicas
+// dinamicoss
 app.use( '/', indexRouter );
 app.use( '/pong', pongRouter );
 app.use( '/', outras );
 
-http.listen(3000);
-
-
+http.listen( port );
 
 var window = {
 	w: 800,
 	h: 500
 }
-function Ball (){
-	this.x =  window.w / 2,
-	this.y =  window.h / 2,
-	this.size =  25,
-	this.vx= 3,
-	this.vy= 1
+
+class GameCoisa{
+	constructor(x, y){
+		this.x = x;
+		this.y = y;
+	}
+
+	update(){
+
+	}
+}
+
+ /**
+   * Criação do player
+   *
+   * @param {Number} x - posição em x.
+   * @param {Number} posição em y.
+   * @param {Object}  Mantem uma referencia so socket.
+   */
+class Player extends GameCoisa{
+	constructor(x, y, socket){
+		super(x, y);
+		this.socket = socket;
+		this.w = 20;
+		this.h = 120;
+	}
+
+	update(){
+
+	}
+
+	getPlayer(){
+		var self = this;
+		return {
+			x : self.x,
+			y : self.y,
+			w : self.w,
+			h : self.h
+		}
+	}
 }
 
 
-Ball.prototype = {
-	update: function(){
+class Bola extends GameCoisa{
+	constructor(x, y){
+		super(x, y);
+		this.vx = 1;
+		this.vy = 1;
+ 		this.size = 20;
+		this.color = 'white';	
+	}
+
+	update(tela){
 		this.x += this.vx;
 		this.y += this.vy;
 
-		if( this.x < 0 )
-			this.vx *= -1;
+		if( this.x > tela.w )
+			this.vx *= -1
 
-		if( this.x > window.w)
-			this.vx *= -1;
+		if(this.x < 0)
+			this.vx *= -1
 
-		if( this.y  < 0)
-			this.vy *= -1;
 
-		if( this.y > window.h)
-			this.vy *= -1;
+		if( this.y > tela.h )
+			this.vy *= -1
+
+		if(this.y < 0)
+			this.vy *= -1
+
+		console.log( this.y > tela.h);
 	}
 }
 
 
-function Game(id_sala){
-	this.players = [];
-	this.ball = new Ball();
-	this.id = id_sala;
-	this.time;
+class Game
+{
+	constructor(roomName)
+	{
+		this.players = [];
+		this.roomName = roomName;
+		this.run = false;
+		this.FPS = 1000 / 30;
+		this.ball = new Bola(200, 300);
+		this.tela = {w: 800, h: 500}
+	}
 
-}
-
-Game.prototype = {
-	update: function(){
-		this.ball.update();
-	}, 
-	addPlayer: function(player){
-		this.players.push(player);
-		
-	},
-	init: function(io){
+	update(){
 		var self = this;
-		
- 			self.update();
-
-			  self.players[0].io.emit('update', {
-  					bola: self.ball,
-  					w: window,
-					id: self.id,
-					players: self.players
-  			 	});
-			
-	  
-			setInterval(function(){
-				io.to(self.id).emit({
-					bola: self.ball,
-  					w: window,
-					id: self.id,
-					players: self.players
-				});
-			}, 1000);
-		
-	  
-	},
-	parar: function(){
-		clearInterval(this.time.bind(this));
+		this.ball.update(self.tela);		
 	}
-}
 
-var sala_id = 0;
-var player_id = 1;
-var salas = [];
-var players = [];
+	logica(){
 
-// sala
-function Sala(game, id){
-	this.game = game;
-	this.id = id;
-}
+	}
+
+	addPlayer(user){
+		// uma sala não pode ter mais de 2 jogadores
+		if(this.players.push.length < 2)
+			this.players.push(user);
+		console.log('adicionado');
+	}
+
+	init(){	
+
+		// para não perder referência ao objeto
+		var self = this;
+		setInterval(function(){
+		
+		var objsPlayers = [];
+		for(var i = 0; i < self.players.length; i++){
+			objsPlayers.push(self.players[i].getPlayer());
+		}			
+
+		for(var i = 0; i < self.players.length; i++)
+		{
+			self.update();
+			self.logica();
 
 
-
-
-
-
-
-var id = 0;
-class Player{
-	constructor( x, y, tamanho, id, socket_id)
-	{
-		if(id === 1){
-			this.x = 0;
-			this.y = 50;
+			self.players[i].socket.emit('update', {bola: self.ball, players: objsPlayers});
 		}
 
-		if(id === 2){
-			this.x = 500;
-			this.y = 50;
-		}
+		}.bind(this), self.FPS);
 
-		this.w = 30;
-		this.h = 120;
-		this.size = {w: 20, h: tamanho};
-		this.id = id = id + 1;
-		this.color = 'white';
-		this.io = socket_id;
-		console.log(this.io.emit);
 	}
 
-	update(posicao)
+	quanPLayers()
 	{
-		var velX = 0;
-		var velY = 0;
-
-		
-
+		var self = this;
+		return self.players.length;
 	}
 
 }
 
-
-function update(){
-	ball.x += ball.vx;
-	ball.y += ball.vy;
-
-	if( ball.x < 0 )
-		ball.vx *= -1;
-
-	if( ball.x > window.w)
-		ball.vx *= -1;
-
-	if( ball.y  < 0)
-		ball.vy *= -1;
-
-	if( ball.y > window.h)
-		ball.vy *= -1;
-}
-// quando conectar criaremos uma nova raquete 
-// e adicionaremos ela a lista de jodadores
-//  update das variaveis no server
-// função draw passa as variaveis para serem renderizadas no cliente
-
-// bola se movimenta 
-//var bola = new Bola(20, 20, 20, 20);
-// no lado do cliente emitira uma mensagem toda vez que a raquete se movimentar
-var ids = 0;
-var currentIO;
+// IO
+ 
+var users = [];
+var a = [1,2,3,4];
+var sala = 1;
+var games = []
+// incia a conexão 
 io.on('connection', function(socket){
-currentIO = socket;
-socket.id = ids++;
 
-// ao criar a sala
-socket.on('criarSala', function(data){
+
+	users.push(socket);
+
+	// emite apenas para o úsuario que acaboude se conectar
+	socket.emit('handshaking', { mg: "number: " + users.length});
 	
-	sala_id +=1;
-	socket.join(sala_id);
-	salas[sala_id] = new Sala(new Game(sala_id), sala_id);
-	console.log(salas[sala_id]);
-	socket.emit('salaCriada', { sala: sala_id });
+	// quando o socket se desconectar
+	socket.on('disconnect', function(){
+			
+		// emite para todos que estiveram conectados menos para o user que se desconectou
+		socket.broadcast.emit('handshaking', {mg: "number: " + users.length} );
+
+		users.splice(socket);
+	});
+
+	// passar o numero da sala
+	socket.on('pegarSala', function(data){
+
+		socket.emit('salaCriada', {sala: sala});
+	
+
+	});
+
+	// lógica para criação das 'salas' e começo do gameloop
+	socket.on('criarPlayer', function(data){
+		console.log('dentro do criar player');
+		if( !games[data.id] ){
+			var jogo = new Game(data.id);
+			
+			//console.log(jogo.players);
+			games[data.id] = jogo;
+
+			sala++;
+		}
+
+		console.log(games[data.id]);
+		if(games[data.id].quanPLayers() < 2){
+
+			// criar o jogador 
+			if(games[data.id].quanPLayers() == 1){
+				var player =  new Player(10, 20, socket);
+			}else
+			{
+				var player =  new Player(770, 20, socket);
+			}				
+
+			games[data.id].addPlayer(player);
+
+			// numero de jogadores for atingido
+			console.log(games[data.id].quanPLayers() === 2)
+			if(games[data.id].quanPLayers() === 2)
+				games[data.id].init();
+		}
+		else{
 
 
+			if(!games[data.id].run)
+				games[data.id].init();
+		}
+		console.log('sala ' + data.id + "  tem " + games[data.id].quanPLayers());		
+	
+	});
 });
 
-
-  socket.emit('initGame', {
-  	w: window.w,
-  	h: window.h
-  });
-
-  
-// ao criar a sala
-socket.on('add_player', function(data){
-	
-	salas[data.id_sala].game.addPlayer(new Player(20, 200, 100, player_id, currentIO));
-	
-	if(salas[data.id_sala].game.players.length > 1)
-	{
-		
-		salas[data.id_sala].game.init(socket);
-
-	}
-	player_id ++;
-
-	if(player_id >= 3)
-		player_id = 1;
-		
-	
-});
-  function comecar(){
-	  setInterval(function(){
-
-		io.emit('update', {
-			bola: ball,
-			w: window
-		});
-		}, 1000 / 30);
-	}
-
-	
-});

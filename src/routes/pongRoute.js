@@ -16,7 +16,7 @@ function router(nav){
 
 	routePong.route('/sala/:id?')
 	.get(function(req, res){
-		res.render('pong', {nav, sala_id : req.params.id});
+		res.render('pong', {nav, id : req.params.id});
 	});
 	
 	return routePong;

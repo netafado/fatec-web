@@ -30,29 +30,45 @@
 
 
 var game;
-var h = 800, w = 500;
+var h = 500, w = 800;
   var socket = io();
   var esperando = true;
   game = new Game(800, 500, document.getElementById('mainCanvas'));
 
   // quarda para saber a saala
-  var id_sala = <%=sala_id%>;
-  var nome = prompt("Seu nome?");
+  var gameID = <%=id%>;
+  console.log(gameID);
   
-   socket.emit('sala_init', {
-  		name: nome,
-		id_sala: id_sala
+
+
+  socket.on('salaCheia', function(){
+	  console.log('sala cheia');
+	  SalaCheia();
   	});
 
+socket.on('eu', function(){
+	  console.log('sala cheia');
+	  SalaCheia();
+});
 
 
-  socket.on('comecarJogo', function(data){
-	  esperando = false;
-	  w = data.w;
-	  h = data.h;
-  	});
+socket.on('broadcast', function(){
+	  console.log('broadcast');
 
-	socket.emit('add_player', {id_sala: id_sala});
+});
+
+	socket.emit('criarPlayer', {id: gameID});
+
+
+	function SalaCheia(){
+		game.ctx.clearRect(0, 0, w, h );
+  		game.ctx.fillStyle = 'white';
+  		game.ctx.beginPath();
+  		
+  		game.ctx.font="20px Georgia";
+		game.ctx.fillText("Sala Cheia",w /2 ,h * 0.3 );
+   		game.ctx.fill(); 
+	}
 
 
 	function draw(){
@@ -65,24 +81,34 @@ var h = 800, w = 500;
    		game.ctx.fill(); 
 	}
 
-	draw();
-    socket.on('update', function(data){
-		console.log('updating');
-		if(data.id != id_sala){
-			return;
-		}
-		
-  		game.ctx.clearRect(0, 0, data.w.w, data.w.h );
-  		game.ctx.fillStyle = 'white';
-  		game.ctx.beginPath();
-  		
-  		game.ctx.arc(data.bola.x, data.bola.y, data.bola.size, 0, Math.PI*2);
-   		game.ctx.fill(); 
+	x = 0;
+	y = 0;
+	function update(data){
+		game.ctx.clearRect(0, 0, w, h );
 
+		// bola
+		game.ctx.fillStyle = data.bola.color;
+  		game.ctx.beginPath();
+  		game.ctx.arc(data.bola.x, data.bola.y, data.bola.size, 0, Math.PI * 2)
+  		game.ctx.fill();
+
+		// players
 		for(var i = 0; i < data.players.length; i++)
 		{
-			game.ctx.fillRect(data.players[i].x, data.players[i].y, data.players[i].w, data.players[i].h); 
-		}	
+			game.ctx.fillRect(data.players[i].x, data.players[i].y, 
+								data.players[i].w,  data.players[i].h)
+		}
+		
+
+   		
+	}
+
+	draw();
+    socket.on('update', function(data){
+			
+			update(data);
+			console.log('update');
+
   	});
 </script>
 

@@ -9,26 +9,18 @@ gulp.task( 'stylus', function (){
     gulp.src(__dirname +'/src/stylus/*.styl')
     .pipe(sourcemaps.init())
     .pipe( stylus(
-        {
-           
+        {           
             compress: false
-        }     
+        }    
     ) )
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./public/css'));
 } );
 
-gulp.task('s', function () {
-  return gulp.src('./css/compressed.styl')
-    .pipe(stylus({
-      compress: true
-    }))
-    .pipe(gulp.dest('./css/build'));
-});
-
 gulp.task('print', function(){
     console.log('fez');
 });
+
 gulp.task('w', function(){
     gulp.watch([ __dirname + '/src/stylus/**/*.styl'], ['stylus']);
 });
