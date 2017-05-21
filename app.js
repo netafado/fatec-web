@@ -1,50 +1,26 @@
 'use strict';
-var express = require('express');
-var app = express();
+const express 	= 	require('express');
+const app 		= 	express();
+
+// importa as variaveis do arquivo variables.env
+require('dotenv').config({path: 'variables.env'});
+
+const mongoose 		=  require('mongoose');
+mongoose.Promise 	= global.Promise;
 
 // a porta não pode ser inicializada pelo express
 // para o socket.io funcionar
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const http 		= require('http').Server(app);
+const io 		= require('socket.io')(http);
 
-var nav = [
-	
-	{
-		link:'/',
-		texto: 'home'
-	},
+const settings 	= require( __dirname + '/src/settings.js');
+const nav 		=  settings.nav;
 
-	{
-		link:'/contato',
-		texto: 'contato'
-	},
+const pongRouter 	=  require( __dirname + '/src/routes/pongRoute.js')(nav);
+const indexRouter 	= require( __dirname + '/src/routes/indexRoute.js')(nav);
+const outras 		= require( __dirname + '/src/routes/indexRoute.js')(nav);
 
-	{
-		link:'/time',
-		texto: 'time'
-	},
-
-	{
-		link:'/sobre',
-		texto: 'sobre nós'
-	},
-
-	{
-		link:'/asteroids',
-		texto: 'Asteroids'
-	},
-
-	{
-		link:'/pong/sala',
-		texto: 'Pong'
-	}
-
-];
-
-var pongRouter =  require( __dirname + '/src/routes/pongRoute.js')(nav);
-var indexRouter = require( __dirname + '/src/routes/indexRoute.js')(nav);
-var outras = require( __dirname + '/src/routes/indexRoute.js')(nav);
-var port = 3000;
+const port 		= 3000;
 
 // seta a qual template engine será usada
 app.set('views', './src/views');
@@ -53,10 +29,42 @@ app.set('view engine', 'ejs');
 // pasta para os arquivos staticos
 app.use( express.static( __dirname + '/public') );
 
-// dinamicoss
+// antes de começar qualquer coisa vamos adicionar 
+// algumas variaveis a todas as rotas
+function variaveis(req, res, next){
+	
+	console.log( "this");
+	next();
+}
+
+// dinamicos
+app.use( variaveis );
 app.use( '/', indexRouter );
 app.use( '/pong', pongRouter );
 app.use( '/', outras );
+
+
+
+// 404
+app.use(function(req, res, next) {
+  var err = new Error('File Not Found');
+  err.status = 404;
+  next(err);
+});
+
+//ultimo 
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+
+
+// conexão com o banco de dados
+
+
 
 http.listen( port );
 
