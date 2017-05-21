@@ -2,45 +2,56 @@
 const express 	= 	require('express');
 const app 		= 	express();
 
+
 // importa as variaveis do arquivo variables.env
 require('dotenv').config({path: 'variables.env'});
 
-const mongoose 		=  require('mongoose');
-mongoose.Promise 	= global.Promise;
+const mongoose 	=  require('mongoose');
 
 // a porta não pode ser inicializada pelo express
-// para o socket.io funcionar
+// para o socket.io funcionar por isso o http
 const http 		= require('http').Server(app);
 const io 		= require('socket.io')(http);
 
 const settings 	= require( __dirname + '/src/settings.js');
 const nav 		=  settings.nav;
 
-const pongRouter 	=  require( __dirname + '/src/routes/pongRoute.js')(nav);
-const indexRouter 	= require( __dirname + '/src/routes/indexRoute.js')(nav);
-const outras 		= require( __dirname + '/src/routes/indexRoute.js')(nav);
-
-const port 		= 3000;
+const cookieParser 	= require('cookie-parser');
+const bodyParser 	= require('body-parser');
+const passport 		= require('passport');
+const promisify 	= require('es6-promisify');
 
 // seta a qual template engine será usada
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+
+// conexão com o banco de dados
+mongoose.connect(process.env.DATABASE);
+mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+mongoose.connection.on('error', (err) => {
+  console.error(`Deu ruim → ${err.message}`);
+});
+
+// importar os modelos 
+require( __dirname + '/src/models/user');
+
+// as rotas precisam ir depois de importar os modelos 
+const pongRouter 	=  require( __dirname + '/src/routes/pongRoute.js')(nav);
+const indexRouter 	=  require( __dirname + '/src/routes/indexRoute.js')(nav);
+const userRouter	=  require( __dirname + '/src/routes/user.js');
+const outras 		=  require( __dirname + '/src/routes/indexRoute.js')(nav);
+
 // pasta para os arquivos staticos
 app.use( express.static( __dirname + '/public') );
 
-// antes de começar qualquer coisa vamos adicionar 
-// algumas variaveis a todas as rotas
-function variaveis(req, res, next){
-	
-	console.log( "this");
-	next();
-}
+// coloca as propriedades do request dentro de req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// dinamicos
-app.use( variaveis );
 app.use( '/', indexRouter );
 app.use( '/pong', pongRouter );
+app.use( '/user', userRouter );
 app.use( '/', outras );
 
 
@@ -62,11 +73,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-// conexão com o banco de dados
 
-
-
-http.listen( port );
+http.listen( process.env.PORT );
 
 var window = {
 	w: 800,
